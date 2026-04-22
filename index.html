@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sabrina aktar sinthia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        .glow-text {
+            color: #000000;
+            animation: blackDreamGlow 4s ease-in-out infinite;
+        }
+        @keyframes blackDreamGlow {
+            0% { transform: translateY(0) scale(1); opacity: 0.85; text-shadow: 0 0 6px #ffb6c1; }
+            25% { transform: translateY(-6px) scale(1.02); opacity: 1; text-shadow: 0 0 12px #ff69b4, 0 0 18px #f472b6; }
+            50% { transform: translateY(-10px) scale(1.04); opacity: 1; text-shadow: 0 0 20px #ec4899, 0 0 30px #f9a8d4; }
+            75% { transform: translateY(-6px) scale(1.02); opacity: 0.95; text-shadow: 0 0 12px #ff69b4; }
+            100% { transform: translateY(0) scale(1); opacity: 0.85; text-shadow: 0 0 6px #ffb6c1; }
+        }
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            touch-action: manipulation;
+            background: linear-gradient(135deg, #f9a8d4, #f3e8ff);
+        }
+        #app {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .step {
+            position: absolute;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .step.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        .btn {
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+            transition: all 0.3s ease;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #ec4899, #f43f5e, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .heart-beat { animation: heartbeat 1.5s ease-in-out infinite; }
+        @keyframes heartbeat {
+            0%, 50%, 100% { transform: scale(1); }
+            25%, 75% { transform: scale(1.1); }
+        }
+        #progress-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            z-index: 100;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ec4899, #f43f5e);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="canvas-container"></div>
+        <div id="progress-container"><div id="progress-bar"></div></div>
+        
+        <div id="content">
+            <!-- Step 1 -->
+            <div class="step active" id="step1">
+                <div class="text-6xl mb-4 heart-beat">❤️</div>
+                <h1 class="text-4xl font-bold mb-6 text-gradient">For Sinthia</h1>
+                <p class="text-xl text-gray-700 mb-8">A small try to make you happy</p>
+                <button class="btn" id="start-btn">Let's Begin</button>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step" id="step2">
+                <div class="text-6xl mb-4">🎂</div>
+                <h2 class="text-3xl font-bold mb-6 text-gradient">Happy Birthday!</h2>
+                <p class="text-lg text-gray-700 mb-6">You may not be mine, but you still hold a beautiful place in my heart.</p>
+                <button class="btn" id="next-btn-2">Continue</button>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step" id="step3">
+                <h2 class="text-3xl font-bold mb-8 text-gradient">My Wishes</h2>
+                <div class="text-left text-gray-700 space-y-4">
+                    <p>🌟 May your life stays happy and bright always.</p>
+                    <p>✨ Your passion and energy are contagious.</p>
+                </div>
+                <button class="btn" id="next-btn-3">A Little Surprise</button>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step" id="step4">
+                <h2 class="text-3xl font-bold mb-6 text-gradient">Remember When...</h2>
+                <div class="rounded-xl overflow-hidden mb-4 shadow-lg">
+                    <img src="https://i.ibb.co.com/JRCDZCsJ/IMG-20251120-WA0005-2.jpg" class="w-full h-auto">
+                </div>
+                <p class="text-gray-700">Every moment with you becomes a cherished memory.</p>
+                <button class="btn" id="next-btn-4">One Last Thing</button>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step" id="step5">
+                <div class="text-6xl mb-4">🎁</div>
+                <h2 class="text-3xl font-bold mb-6 text-gradient">My Birthday Wish</h2>
+                <p class="text-lg text-gray-700 mb-8">Happy Birthday, my Sinthi!</p>
+                <button class="btn" id="confetti-btn">Celebrate!</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://docs.google.com/uc?export=download&id=1N1cBFs39mfoWpXfN2YjcnOni6Loht-Bd" type="audio/mp3">
+    </audio>
+
+    <script>
+        // Three.js Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Heart Shape
+        const x = 0, y = 0;
+        const heartShape = new THREE.Shape();
+        heartShape.moveTo(x + 5, y + 5);
+        heartShape.bezierCurveTo(x + 5, y + 5, x + 4, y, x, y);
+        heartShape.bezierCurveTo(x - 6, y, x - 6, y + 7, x - 6, y + 7);
+        heartShape.bezierCurveTo(x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19);
+        heartShape.bezierCurveTo(x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7);
+        heartShape.bezierCurveTo(x + 16, y + 7, x + 16, y, x + 10, y);
+        heartShape.bezierCurveTo(x + 7, y, x + 5, y + 5, x + 5, y + 5);
+
+        const geometry = new THREE.ExtrudeGeometry(heartShape, { depth: 2, bevelEnabled: true, bevelSize: 1, bevelThickness: 1 });
+        const hearts = [];
+
+        for(let i=0; i<20; i++) {
+            const material = new THREE.MeshPhongMaterial({ color: 0xff69b4 });
+            const heart = new THREE.Mesh(geometry, material);
+            heart.position.set((Math.random()-0.5)*100, (Math.random()-0.5)*100, (Math.random()-0.5)*50);
+            heart.scale.set(0.5, 0.5, 0.5);
+            heart.rotation.z = Math.PI;
+            scene.add(heart);
+            hearts.push(heart);
+        }
+
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(1, 1, 1);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        camera.position.z = 50;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            hearts.forEach(h => {
+                h.rotation.y += 0.01;
+                h.position.y += 0.05;
+                if(h.position.y > 50) h.position.y = -50;
+            });
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Navigation Logic
+        let currentStep = 1;
+        const showStep = (n) => {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
+            document.getElementById('progress-bar').style.width = ((n-1)/4 * 100) + '%';
+        };
+
+        document.getElementById('start-btn').addEventListener('click', () => { 
+            document.getElementById('bg-music').play();
+            currentStep = 2; showStep(2); 
+        });
+        document.getElementById('next-btn-2').addEventListener('click', () => { currentStep = 3; showStep(3); });
+        document.getElementById('next-btn-3').addEventListener('click', () => { currentStep = 4; showStep(4); });
+        document.getElementById('next-btn-4').addEventListener('click', () => { currentStep = 5; showStep(5); });
+
+        document.getElementById('confetti-btn').addEventListener('click', () => {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
